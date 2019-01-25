@@ -24,11 +24,8 @@ public class OrderbookServiceImpl implements OrderbookService{
 	
 	@Override
 	public ServiceCall<NotUsed,String> allOrder(String id) {
-		System.out.println("supppp");
-		log.info("Yooooooo");
+		log.info("Test");
 		  return request -> {
-			 log.info("Yooooooo");
-			 System.out.print("suppppp");			 
 			return null;			  
 		  };
 	}
