@@ -9,6 +9,7 @@
   <modules>
   	<module>orderbook-api</module>
   	<module>orderbook-impl</module>
+  	<module>orderbook-client-ws</module>
   </modules>
   <build>
         <plugins>
@@ -73,6 +74,11 @@
                 <groupId>com.lightbend.lagom</groupId>
                 <artifactId>lagom-javadsl-integration-client_2.11</artifactId>
                 <version>${lagom.version}</version>
+            </dependency>
+             <dependency>
+                <groupId>com.github.jnidzwetzki</groupId>
+                <artifactId>bitfinex-v2-wss-api</artifactId>
+                <version>0.7.4-snapshot</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
