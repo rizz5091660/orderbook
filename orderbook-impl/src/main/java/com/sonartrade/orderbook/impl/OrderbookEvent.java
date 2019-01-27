@@ -1,5 +1,6 @@
 package com.sonartrade.orderbook.impl;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -27,16 +28,16 @@ public interface OrderbookEvent extends Jsonable, AggregateEvent<OrderbookEvent>
 	  @JsonDeserialize
 	  public class OrderbookCreated implements OrderbookEvent {
 	    public final String ticker;
-	    public final double bid;
-	    public final double ask;
+	    public final BigDecimal bid;
+	    public final BigDecimal ask;
 	    public final Instant timestamp;
 
-	    public OrderbookCreated(String ticker, double bid, double ask) {
+	    public OrderbookCreated(String ticker, BigDecimal bid, BigDecimal ask) {
 	      this(ticker, bid, ask, Optional.empty());
 	    }
 
 	    @JsonCreator
-	    private OrderbookCreated(String ticker, double bid, double ask,Optional<Instant> timestamp) {
+	    private OrderbookCreated(String ticker, BigDecimal bid, BigDecimal ask,Optional<Instant> timestamp) {
 	      this.ticker = Preconditions.checkNotNull(ticker, "ticker");
 	      this.bid = bid;
 	      this.ask = ask;
@@ -71,17 +72,21 @@ public interface OrderbookEvent extends Jsonable, AggregateEvent<OrderbookEvent>
 	  @SuppressWarnings("serial")
 	  @Immutable
 	  @JsonDeserialize
-	  public class OrderbookAdded implements OrderbookEvent {
+	  public class OrderbookUpdated implements OrderbookEvent {
 	    public final String ticker;
+	    public final BigDecimal bid;
+	    public final BigDecimal ask;
 	    public final Instant timestamp;
 
-	    public OrderbookAdded(String ticker) {
-	      this(ticker, Optional.empty());
+	    public OrderbookUpdated(String ticker, BigDecimal bid, BigDecimal ask) {
+	      this(ticker, bid, ask, Optional.empty());
 	    }
 
 	    @JsonCreator
-	    public OrderbookAdded(String ticker,Optional<Instant> timestamp) {
+	    public OrderbookUpdated(String ticker, BigDecimal bid, BigDecimal ask, Optional<Instant> timestamp) {
 	      this.ticker = Preconditions.checkNotNull(ticker, "ticker");
+	      this.bid = bid;
+	      this.ask = ask;
 	      this.timestamp = timestamp.orElseGet(() -> Instant.now());
 	    }
 
@@ -89,10 +94,10 @@ public interface OrderbookEvent extends Jsonable, AggregateEvent<OrderbookEvent>
 	    public boolean equals(@Nullable Object another) {
 	      if (this == another)
 	        return true;
-	      return another instanceof OrderbookAdded && equalTo((OrderbookAdded) another);
+	      return another instanceof OrderbookUpdated && equalTo((OrderbookUpdated) another);
 	    }
 
-	    private boolean equalTo(OrderbookAdded another) {
+	    private boolean equalTo(OrderbookUpdated another) {
 	      return ticker.equals(another.ticker) && timestamp.equals(another.timestamp);
 	    }
 
@@ -106,7 +111,7 @@ public interface OrderbookEvent extends Jsonable, AggregateEvent<OrderbookEvent>
 
 	    @Override
 	    public String toString() {
-	      return MoreObjects.toStringHelper("OrderbookAdded").add("ticker", ticker).add("timestamp", timestamp).toString();
+	      return MoreObjects.toStringHelper("OrderbookUpdated").add("ticker", ticker).add("timestamp", timestamp).toString();
 	    }
 	  }
 

@@ -10,6 +10,8 @@
   	<module>orderbook-api</module>
   	<module>orderbook-impl</module>
   	<module>orderbook-client-ws</module>
+  	<module>loader-stream-api</module>
+  	<module>loader-stream-impl</module>
   </modules>
   <build>
         <plugins>
@@ -78,7 +80,7 @@
              <dependency>
                 <groupId>com.github.jnidzwetzki</groupId>
                 <artifactId>bitfinex-v2-wss-api</artifactId>
-                <version>0.7.4-snapshot</version>
+                <version>0.7.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

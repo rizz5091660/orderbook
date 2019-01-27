@@ -1,10 +1,13 @@
 package com.sonartrade.orderbook.api;
 
+import java.math.BigDecimal;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
 @Immutable
@@ -12,36 +15,18 @@ import com.google.common.base.Preconditions;
 public class Orderbook {
 	public String ticker;
 	public double mid;
-	public double bid;
-	public double ask;
-	public double lastPrice;
-	public double low;
-	public double high;
-	public double volume;
+	public BigDecimal bid;
+	public BigDecimal ask;
+	public BigDecimal lastPrice;
+	public BigDecimal low;
+	public BigDecimal high;
+	public BigDecimal volume;
 	public String timestamp;
-	
-
-	public Orderbook(String ticker, double mid, double bid, double ask, double lastPrice, double low, double high, double volume,
-			String timestamp) {
-		super();
-		this.ticker = ticker;
-		this.mid = mid;
-		this.bid = bid;
-		this.ask = ask;
-		this.lastPrice = lastPrice;
-		this.low = low;
-		this.high = high;
-		this.volume = volume;
-		this.timestamp = timestamp;
-	}
-	
 	
 	
 	@JsonCreator
-
-	public Orderbook(String ticker, double bid, double ask) {
-		super();
-		 this.ticker = Preconditions.checkNotNull(ticker, "ticker");
+	public Orderbook(String ticker, BigDecimal bid, BigDecimal ask) {
+		this.ticker = Preconditions.checkNotNull(ticker, "ticker");
 		this.bid = bid;
 		this.ask = ask;
 	}
@@ -65,6 +50,10 @@ public class Orderbook {
 	    return h;
 	  }
 
+	  @Override
+	  public String toString() {
+		 return MoreObjects.toStringHelper("Orderbook").add("ticker", ticker).toString();
+	}
 	
 	
 }

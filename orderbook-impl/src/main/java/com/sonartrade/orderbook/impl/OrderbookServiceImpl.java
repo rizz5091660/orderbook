@@ -35,10 +35,10 @@ public class OrderbookServiceImpl implements OrderbookService{
 	  
 	
 
-	@Override
+	@Override 
 	public ServiceCall<NotUsed, Orderbook> getOrderbook(String ticker) { 
 	    return request -> {
-	        return friendEntityRef(ticker).ask(new GetOrderbook()).thenApply(reply -> {
+	        return orderbookEntityRef(ticker).ask(new GetOrderbook()).thenApply(reply -> {
 	          if (reply.orderbook.isPresent())
 	            return reply.orderbook.get();
 	          else
@@ -47,7 +47,7 @@ public class OrderbookServiceImpl implements OrderbookService{
 	      };
 	}
 	
-	 private PersistentEntityRef<OrderbookCommand> friendEntityRef(String ticker) {
+	 private PersistentEntityRef<OrderbookCommand> orderbookEntityRef(String ticker) {
 		    PersistentEntityRef<OrderbookCommand> ref = persistentEntities.refFor(OrderbookEntity.class, ticker);
 		    return ref;
 		  }
@@ -57,7 +57,7 @@ public class OrderbookServiceImpl implements OrderbookService{
 	@Override
 	public ServiceCall<Orderbook, NotUsed> createOrderbook() {
 		return request -> {
-		      return friendEntityRef(request.ticker).ask(new CreateOrderbook(request))
+		      return orderbookEntityRef(request.ticker).ask(new CreateOrderbook(request))
 		          .thenApply(ack -> NotUsed.getInstance());
 		    };
 	}
