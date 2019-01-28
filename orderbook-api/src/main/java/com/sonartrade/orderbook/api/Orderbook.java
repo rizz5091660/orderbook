@@ -14,7 +14,6 @@ import com.google.common.base.Preconditions;
 @JsonDeserialize
 public class Orderbook {
 	public String ticker;
-	public double mid;
 	public BigDecimal bid;
 	public BigDecimal ask;
 	public BigDecimal lastPrice;
@@ -25,10 +24,14 @@ public class Orderbook {
 	
 	
 	@JsonCreator
-	public Orderbook(String ticker, BigDecimal bid, BigDecimal ask) {
+	public Orderbook(String ticker, BigDecimal bid, BigDecimal ask,BigDecimal lastPrice,BigDecimal low,BigDecimal high, BigDecimal volume) {
 		this.ticker = Preconditions.checkNotNull(ticker, "ticker");
 		this.bid = bid;
 		this.ask = ask;
+		this.lastPrice = lastPrice;
+		this.low = low;
+		this.high = high;
+		this.volume = volume;
 	}
 	
 	

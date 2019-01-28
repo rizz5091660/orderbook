@@ -9,9 +9,7 @@ import com.sonartrade.orderbook.api.Orderbook;
 import com.sonartrade.orderbook.impl.OrderbookCommand.CreateOrderbook;
 import com.sonartrade.orderbook.impl.OrderbookCommand.GetOrderbook;
 import com.sonartrade.orderbook.impl.OrderbookCommand.GetOrderbookReply;
-import com.sonartrade.orderbook.impl.OrderbookCommand.UpdateOrderbook;
 import com.sonartrade.orderbook.impl.OrderbookEvent.OrderbookCreated;
-import com.sonartrade.orderbook.impl.OrderbookEvent.OrderbookUpdated;
 
 import akka.Done;
 
@@ -20,36 +18,19 @@ public class OrderbookEntity extends PersistentEntity<OrderbookCommand, Orderboo
 	@Override
 	public Behavior initialBehavior(Optional<OrderbookState> snapshotState) {
 
-		BehaviorBuilder b = newBehaviorBuilder(snapshotState.orElse(
-				new OrderbookState(Optional.empty()))); 
-
+		BehaviorBuilder b = newBehaviorBuilder(snapshotState.orElse(new OrderbookState(Optional.empty())));
+		
 		b.setCommandHandler(CreateOrderbook.class, (cmd, ctx) -> {
-			if (state().orderbook.isPresent()) {
-				ctx.invalidCommand("Orderbook " + entityId() + " is already created");
-				return ctx.done();
-			} else {
-				Orderbook orderbook = cmd.orderbook;
-				List<OrderbookEvent> events = new ArrayList<OrderbookEvent>(); 
-				events.add(new OrderbookCreated(orderbook.ticker, orderbook.bid, orderbook.ask));
-				return ctx.thenPersistAll(events, () -> ctx.reply(Done.getInstance()));
-			}
-		});
-
-		b.setCommandHandler(UpdateOrderbook.class, (cmd, ctx) -> {
 			Orderbook orderbook = cmd.orderbook;
-			List<OrderbookEvent> events = new ArrayList<OrderbookEvent>(); 
-			events.add(new OrderbookUpdated(orderbook.ticker, orderbook.bid, orderbook.ask));
+			List<OrderbookEvent> events = new ArrayList<OrderbookEvent>();
+			events.add(new OrderbookCreated(orderbook.ticker, orderbook.bid, orderbook.ask ,orderbook.lastPrice,orderbook.low,orderbook.high,orderbook.volume ));		
 			return ctx.thenPersistAll(events, () -> ctx.reply(Done.getInstance()));
 		});
-
-
-		b.setEventHandler(OrderbookCreated.class,
-				evt -> new OrderbookState(Optional.of(new Orderbook(evt.ticker,evt.bid,evt.ask))));
 		
-		b.setEventHandler(OrderbookUpdated.class,
-				evt -> new OrderbookState(Optional.of(new Orderbook(evt.ticker,evt.bid,evt.ask))));
+		b.setEventHandler(OrderbookCreated.class,
+				evt -> new OrderbookState(Optional.of(new Orderbook(evt.ticker, evt.bid, evt.ask, evt.lastPrice, evt.low, evt.high, evt.volume ))));
+				 
 
- 
 		b.setReadOnlyCommandHandler(GetOrderbook.class, (cmd, ctx) -> {
 			ctx.reply(new GetOrderbookReply(state().orderbook));
 		});
@@ -57,7 +38,4 @@ public class OrderbookEntity extends PersistentEntity<OrderbookCommand, Orderboo
 		return b.build();
 	}
 
-	private String getTicker() {
-		return state().orderbook.get().ticker;
-	}
 }

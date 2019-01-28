@@ -37,7 +37,7 @@ public class WebsocketClient {
 	private static Materializer mat;
 	private static Client client;
 	private static WebResource webResource;
-	private static String symbol="tBTCUSD";
+	private static String symbol="BTC";
 
 
 	 private static void initLagom() {
@@ -72,7 +72,7 @@ public class WebsocketClient {
 	private static void sentRestWS(BitfinexTick entry) {
 		try {
 		initRestWS();
-		String request = "{\"ticker\":\""+ symbol+"\",\"bid\": "+ entry.getBid()+",\"ask\":"+ entry.getAsk()+"}";	
+		String request = "{\"ticker\":\""+ symbol+"\",\"bid\": "+ entry.getBid()+",\"ask\":"+ entry.getAsk()+",\"lastPrice\":"+ entry.getLastPrice()+",\"low\":"+ entry.getLow()+",\"high\":"+ entry.getLow()+",\"volume\":"+ entry.getVolume()+ "}";	
 		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, request); 
 		System.out.println("Output from Server .... \n");
 		String output = response.getEntity(String.class);

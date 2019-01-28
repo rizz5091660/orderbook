@@ -1,5 +1,8 @@
 package com.sonartrade.orderbook.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -29,7 +32,6 @@ public class OrderbookServiceImpl implements OrderbookService{
 	      CassandraSession db) {
 	    this.persistentEntities = persistentEntities;
 	    this.db = db;
-
 	    persistentEntities.register(OrderbookEntity.class);
 	  }
 	  
@@ -50,7 +52,7 @@ public class OrderbookServiceImpl implements OrderbookService{
 	 private PersistentEntityRef<OrderbookCommand> orderbookEntityRef(String ticker) {
 		    PersistentEntityRef<OrderbookCommand> ref = persistentEntities.refFor(OrderbookEntity.class, ticker);
 		    return ref;
-		  }
+	 }
 
 
 
