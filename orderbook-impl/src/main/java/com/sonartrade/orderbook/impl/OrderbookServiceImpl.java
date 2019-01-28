@@ -1,8 +1,5 @@
 package com.sonartrade.orderbook.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -25,7 +22,7 @@ public class OrderbookServiceImpl implements OrderbookService{
 
 	private final PersistentEntityRegistry persistentEntities;
 	private final CassandraSession db;
-	private final Logger log = LoggerFactory.getLogger(OrderbookServiceImpl.class);
+	private final Logger log = LoggerFactory.getLogger(OrderbookServiceImpl.class); 
 
 	  @Inject
 	  public OrderbookServiceImpl(PersistentEntityRegistry persistentEntities, ReadSide readSide,
