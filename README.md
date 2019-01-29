@@ -3,6 +3,9 @@
 It is a java lagom application that mirroring Bitfinex Cryptocurrency Trading Platform.
 Current version only showing BTC convert to USD. 
 
+<img src="https://github.com/rizz5091660/orderbook/blob/master/lagom-bitfinex.png" alt="Lagom-Bitfinex"/>
+
+
 ## Running locally
 
 1) Start all services using `mvn lagom:runAll` at `orderbook/pom.xml` 
