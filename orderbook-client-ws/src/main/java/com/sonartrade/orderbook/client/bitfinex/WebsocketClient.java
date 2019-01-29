@@ -1,11 +1,8 @@
 package com.sonartrade.orderbook.client.bitfinex;
 
 
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.function.BiConsumer;
-
-import org.json.JSONObject;
 
 import com.github.jnidzwetzki.bitfinex.v2.BitfinexClientFactory;
 import com.github.jnidzwetzki.bitfinex.v2.BitfinexWebsocketClient;
@@ -16,7 +13,6 @@ import com.github.jnidzwetzki.bitfinex.v2.manager.QuoteManager;
 import com.github.jnidzwetzki.bitfinex.v2.symbol.BitfinexSymbols;
 import com.github.jnidzwetzki.bitfinex.v2.symbol.BitfinexTickerSymbol;
 import com.lightbend.lagom.javadsl.client.integration.LagomClientFactory;
-import com.sonartrade.orderbook.api.Orderbook;
 import com.sonartrade.orderbook.api.OrderbookService;
 import com.sonartrade.orderbook.loader.api.OrderbookLoaderStreamService;
 import com.sun.jersey.api.client.Client;
@@ -30,6 +26,7 @@ import akka.stream.Materializer;
 public class WebsocketClient {
 
 	private static final String SERVICE_LOCATOR_URI = "http://localhost:8000";
+	private static final String ORDERBOOK_SERVICE_URL ="http://localhost:9000/api/orderbook";
 	private static LagomClientFactory clientFactory;
 	private static OrderbookService orderbookService;
 	private static OrderbookLoaderStreamService orderbookLoaderStreamService;
@@ -37,7 +34,7 @@ public class WebsocketClient {
 	private static Materializer mat;
 	private static Client client;
 	private static WebResource webResource;
-	private static String symbol="BTC";
+	private final static String tikcer="BTC";
 
 
 	 private static void initLagom() {
@@ -50,7 +47,7 @@ public class WebsocketClient {
 	 
 	 private static void initRestWS() {
 		 client = Client.create();
-		 webResource = client.resource("http://localhost:9000/api/orderbook");
+		 webResource = client.resource(ORDERBOOK_SERVICE_URL);
 	 }
 	 
 	public static void synchronizeBitFinex() {
@@ -58,7 +55,7 @@ public class WebsocketClient {
 		BitfinexCurrencyPair.registerDefaults();
 		final BitfinexWebsocketClient bitfinexClient = BitfinexClientFactory.newSimpleClient(config);
 		bitfinexClient.connect();		
-		final BitfinexTickerSymbol symbol = BitfinexSymbols.ticker(BitfinexCurrencyPair.of("BTC","USD"));
+		final BitfinexTickerSymbol symbol = BitfinexSymbols.ticker(BitfinexCurrencyPair.of(tikcer,"USD"));
 		final QuoteManager quoteManager = bitfinexClient.getQuoteManager();		
 		final BiConsumer<BitfinexTickerSymbol, BitfinexTick> callback = (orderbookConfig, entry) -> {			
 			System.out.format("Got entry (%s) for orderbook (%s)\n", entry, orderbookConfig);
@@ -71,8 +68,7 @@ public class WebsocketClient {
 	
 	private static void sentRestWS(BitfinexTick entry) {
 		try {
-		initRestWS();
-		String request = "{\"ticker\":\""+ symbol+"\",\"bid\": "+ entry.getBid()+",\"ask\":"+ entry.getAsk()+",\"lastPrice\":"+ entry.getLastPrice()+",\"low\":"+ entry.getLow()+",\"high\":"+ entry.getLow()+",\"volume\":"+ entry.getVolume()+ "}";	
+		String request = "{\"ticker\":\""+ tikcer+"\",\"bid\": "+ entry.getBid()+",\"ask\":"+ entry.getAsk()+",\"lastPrice\":"+ entry.getLastPrice()+",\"low\":"+ entry.getLow()+",\"high\":"+ entry.getLow()+",\"volume\":"+ entry.getVolume()+ "}";	
 		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, request); 
 		System.out.println("Output from Server .... \n");
 		String output = response.getEntity(String.class);
