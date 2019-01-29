@@ -9,5 +9,5 @@ Current version only showing BTC convert to USD.
 2) Open `http://localhost:9000` in your browser.
 3) Running java standalone application at 
 `orderbook/orderbook-client-ws/src/main/java/com/sonartrade/orderbook/client/bitfinex/WebsocketClient.java`
-4) Start the UI using ng s -o
+4) Start the UI using `npm start`
 
