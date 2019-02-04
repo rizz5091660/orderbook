@@ -5,6 +5,12 @@ Current version only showing BTC convert to USD.
 
 <img src="https://github.com/rizz5091660/orderbook/blob/master/lagom-bitfinex.png" alt="Lagom-Bitfinex"/>
 
+## Build application
+1) Running maven comman "clean install" at `orderbook/pom.xml` 
+
+<img src="https://github.com/rizz5091660/orderbook/blob/master/build.png" alt="Build step 1"/>
+
+<img src="https://github.com/rizz5091660/orderbook/blob/master/build2.png" alt="Build step 1"/>
 
 ## Running locally
 
