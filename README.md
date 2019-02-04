@@ -16,6 +16,7 @@ Current version only showing BTC convert to USD.
 
 1) Start all services using `mvn lagom:runAll` at `orderbook/pom.xml` 
 2) Open `http://localhost:9000` in your browser to check list of services
+<img src="https://github.com/rizz5091660/orderbook/blob/master/run-services.PNG" alt="Run Services"/>
 <img src="https://github.com/rizz5091660/orderbook/blob/master/list-services.PNG" alt="List of Services"/>
 3) Running java standalone application at 
 `orderbook/orderbook-client-ws/src/main/java/com/sonartrade/orderbook/client/bitfinex/WebsocketClient.java`
