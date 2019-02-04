@@ -23,3 +23,7 @@ Current version only showing BTC convert to USD.
 
 4) Steps to build and start the UI, refer to :
 https://github.com/rizz5091660/orderbook-ui/blob/master/README.md 
+
+5) Orderbook application is up and running
+<img src="https://github.com/rizz5091660/orderbook/blob/master/orderbook-ui.PNG" alt="Orderbook Apps"/>
+
