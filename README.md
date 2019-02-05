@@ -12,6 +12,17 @@ Current version only showing BTC convert to USD.
 
 <img src="https://github.com/rizz5091660/orderbook/blob/master/build2.PNG" alt="Build step 1"/>
 
+## Running in EC2 AWS
+1) Use ssh client to connect EC2 instance 
+2) Go to directory /home/ec2-user/sonartrade/orderbook.
+3) Execute shell script ./run_lagom_ws.sh
+4) Open another ssh client and connect to AWS EC2
+5) Go to directory /home/ec2-user/sonartrade/orderbook.
+6) Execute shell script ./run_bitfinex_client.sh
+7) Open browser and access the app:
+http://ec2-54-169-142-221.ap-southeast-1.compute.amazonaws.com:8080/orderbook/
+
+
 ## Running locally
 
 1) Start all services using `mvn lagom:runAll` at `orderbook/pom.xml` 
