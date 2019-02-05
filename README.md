@@ -14,7 +14,7 @@ Current version only showing BTC convert to USD.
 
 ## Running in EC2 AWS
 1) Use ssh client to connect EC2 instance. 
-Kindly refer to my email for the user and private key to connect to the instance. 
+Kindly refer to my email for the user and private key. 
 2) Go to directory /home/ec2-user/sonartrade/orderbook.
 3) Execute shell script ./run_lagom_ws.sh
 4) Open another ssh client and connect to AWS EC2
